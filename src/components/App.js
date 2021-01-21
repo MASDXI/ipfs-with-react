@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
+import ipfsClient from 'ipfs-http-client';
 import './App.css';
 
-const ipfsClient = require('ipfs-http-client')
-const ipfs = ipfsClient({ host: 'ipfs.infura.io', port: 5001, protocol: 'https' }) // leaving out the arguments will default to these values
+const ipfs = ipfsClient({ host: 'ipfs.infura.io', port: 5001, protocol: 'https' })
 
 class App extends Component {
 
@@ -10,7 +10,7 @@ class App extends Component {
     super(props)
 
     this.state = {
-      memeHash: 'QmUCTkyFkg6ScFeHzNwYDSoUnCYtejiJZdZQtXw5RtU5bW',
+      memeHash: 'QmfM2r8seH2GiRaC4esTjeraXEachRt8ZsSeGaWTPLyMoG',
       buffer: null,
     }
   }
@@ -27,13 +27,14 @@ class App extends Component {
   }
 
   onSubmit = async (event) => {
-    let ipfsResponse
     event.preventDefault()
+    console.log('adding file to ipfs...')
     if (this.state.buffer) {
-      ipfsResponse = await ipfs.add(this.state.buffer)
-      this.setState( {memeHash : ipfsResponse.cid.toString()});
-      // reset the store buffer
-      // this.state.buffer = null
+      const result = await ipfs.add(this.state.buffer)
+      console.log("CID", result.cid.toString())
+      this.setState( {memeHash : result.cid.toString()});
+    } else {
+      console.error()
     }
   }
 
@@ -54,11 +55,13 @@ class App extends Component {
           <div className="row">
             <main role="main" className="col-lg-12 d-flex text-center">
               <div className="content mr-auto ml-auto">
-                <img width="800" height="600" src={`https://ipfs.infura.io/ipfs/${this.state.memeHash}`} />
+                <embed width="800" height="600" 
+                  src={`https://ipfs.io/ipfs/${this.state.memeHash}`}
+                  key={this.state.memeHash} />
                 <p>&nbsp;</p>
                 <a
                   className="navbar-brand col-sm-3 col-md-2 mr-0"
-                  href={`https://ipfs.infura.io/ipfs/${this.state.memeHash}`}
+                  href={`https://ipfs.io/ipfs/${this.state.memeHash}`}
                   target="_blank"
                   rel="noopener noreferrer"
                 >
