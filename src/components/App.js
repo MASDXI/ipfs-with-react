@@ -26,17 +26,15 @@ class App extends Component {
     }
   }
 
-  onSubmit = (event) => {
+  onSubmit = async (event) => {
+    let ipfsResponse
     event.preventDefault()
-    console.log("Submitting file to ipfs...")
-    ipfs.add(this.state.buffer, (error, result) => {
-      console.log('Ipfs result', result)
-      if(error) {
-        console.error(error)
-        return
-      }
-      this.setState({ memeHash: result[0].hash })
-    })
+    if (this.state.buffer) {
+      ipfsResponse = await ipfs.add(this.state.buffer)
+      this.setState( {memeHash : ipfsResponse.cid.toString()});
+      // reset the store buffer
+      // this.state.buffer = null
+    }
   }
 
   render() {
