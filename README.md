@@ -1,4 +1,8 @@
 # InterPlanetary File System + ReactJS
+<p align="center">
+  <img src="./img/screenshot01.png" height="500">
+</p>
+
 Tutorial using IPFS with nodejs
 To run these tutorials, you must have the following installed:
 - [nodejs](https://nodejs.org/en/)
