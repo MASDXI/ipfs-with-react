@@ -15,7 +15,7 @@ npm install
 
 ``` bash
 # Web Application start at http://localhost:3000
-npm  start
+npm start
 ```
 
 ``` bash
